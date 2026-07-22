@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Local News</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+<h2>📰 Local News</h2>
+
+</header>
+
+
+
+<!-- Breaking News -->
+
+<div class="breaking">
+
+<span>🔴 BREAKING:</span>
+
+{% if news %}
+
+{{ news[0]["title"] }}
+
+{% endif %}
+
+</div>
+
+
+
+<h2 class="section-title">
+Latest News
+</h2>
+
+
+
+
+{% for n in news %}
+
+
+<div class="card">
+
+
+{% if n["image"] %}
+
+<img src="{{ url_for('static', filename='uploads/' + n['image']) }}">
+
+{% endif %}
+
+
+
+<div class="content">
+
+
+<h2>
+{{ n["title"] }}
+</h2>
+
+
+<p>
+📍 {{ n["location"] }}
+</p>
+
+
+<p>
+{{ n["article"][:120] }}...
+</p>
+
+
+<a class="button"
+href="/news/{{ n['id'] }}">
+
+Read Full News →
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+{% endfor %}
+
+
+
+</body>
+
+</html>

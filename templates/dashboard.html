@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" 
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard">
+
+
+<h1>
+📰 Admin Dashboard
+</h1>
+<a href="/logout">
+🚪 Logout
+</a>
+
+<div class="count-box">
+
+Total News:
+<b>{{total}}</b>
+
+</div>
+
+
+
+<a class="button"
+href="/admin">
+
++ Publish New News
+
+</a>
+
+
+
+<hr>
+
+
+
+<input 
+id="search"
+type="text"
+placeholder="Search news..."
+onkeyup="searchNews()">
+
+
+
+{% for n in news %}
+
+
+
+<div class="news-admin-card">
+
+
+{% if n["image"] %}
+
+<img src="{{url_for('static',
+filename='uploads/'+n['image'])}}">
+
+{% endif %}
+
+
+
+<div>
+
+
+<h3>
+{{n["title"]}}
+</h3>
+
+
+<p>
+📍 {{n["location"]}}
+</p>
+
+
+<p>
+📅 {{n["created_at"]}}
+</p>
+
+
+
+<a href="/news/{{n['id']}}">
+👁 View
+</a>
+
+
+|
+
+<a href="/edit/{{n['id']}}">
+✏ Edit
+</a>
+
+
+|
+
+<a href="/delete/{{n['id']}}"
+onclick="return confirm('Delete this news?')">
+🗑 Delete
+</a>
+
+
+
+<br><br>
+
+
+
+<button onclick="copyLink('{{request.host_url}}news/{{n['id']}}')">
+
+🔗 Copy Link
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+{% endfor %}
+
+
+
+</div>
+
+
+
+
+<script>
+
+
+function copyLink(link){
+
+navigator.clipboard.writeText(link);
+
+alert("News link copied!");
+
+}
+
+
+
+function searchNews(){
+
+let input =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+
+
+let cards =
+document.getElementsByClassName(
+"news-admin-card"
+);
+
+
+
+for(let i=0;i<cards.length;i++){
+
+let text =
+cards[i].innerText.toLowerCase();
+
+
+if(text.includes(input)){
+
+cards[i].style.display="block";
+
+}
+
+else{
+
+cards[i].style.display="none";
+
+}
+
+
+}
+
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>

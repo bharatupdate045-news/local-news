@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<title>Edit News</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+
+<body>
+
+
+<h2>Edit News</h2>
+
+
+<form method="POST">
+
+
+<input
+name="title"
+value="{{news.title}}">
+
+
+<br><br>
+
+
+<input
+name="location"
+value="{{news.location}}">
+
+
+<br><br>
+
+
+<select name="category">
+
+<option>
+{{news.category}}
+</option>
+
+<option>
+Local
+</option>
+
+<option>
+Sports
+</option>
+
+<option>
+Politics
+</option>
+
+</select>
+
+
+<br><br>
+
+
+<textarea
+name="article"
+rows="10">
+
+{{news.article}}
+
+</textarea>
+
+
+<br><br>
+
+
+<button>
+Update News
+</button>
+
+
+</form>
+
+
+</body>
+
+</html>

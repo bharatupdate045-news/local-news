@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Upload News</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<h2>Publish News</h2>
+
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+
+<input 
+type="text"
+name="title"
+placeholder="News Title"
+required>
+
+
+<input 
+type="text"
+name="location"
+placeholder="Location">
+
+
+<select name="category">
+
+<option>Local</option>
+<option>Politics</option>
+<option>Sports</option>
+<option>Education</option>
+<option>Crime</option>
+
+</select>
+
+
+<h4>Upload Image</h4>
+
+<input 
+type="file"
+name="image"
+accept="image/*">
+
+
+<h4>Upload Video</h4>
+
+<input 
+type="file"
+name="video"
+accept="video/*">
+
+
+<textarea
+name="article"
+placeholder="Write News Article"
+rows="10"></textarea>
+
+
+<button type="submit">
+Publish News
+</button>
+
+
+</form>
+
+
+</body>
+</html>
