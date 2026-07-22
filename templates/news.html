@@ -21,7 +21,7 @@ content="{{ article['article'][:150] }}">
 {% if article["image"] %}
 
 <meta property="og:image"
-content="{{ request.host_url }}static/uploads/{{ article['image'] }}">
+content="{{ article['image'] }}">
 
 {% endif %}
 
@@ -60,7 +60,7 @@ href="{{ url_for('static', filename='css/style.css') }}">
 {% if article["image"] %}
 
 <img class="article-image"
-src="{{ url_for('static', filename='uploads/' + article['image']) }}">
+src="{{ article['image'] }}">
 
 {% endif %}
 
@@ -88,16 +88,13 @@ src="{{ url_for('static', filename='uploads/' + article['image']) }}">
 
 {% if article["video"] %}
 
-
 <video class="article-video" controls>
 
+<source src="{{ article['video'] }}" type="video/mp4">
 
-<source src="{{ url_for('static',
-filename='uploads/' + article['video']) }}">
-
+Your browser does not support the video tag.
 
 </video>
-
 
 {% endif %}
 

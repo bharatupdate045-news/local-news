@@ -2,8 +2,15 @@ from flask import Flask, render_template, request, redirect, session
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
+import cloudinary
+import cloudinary.uploader
 
 app = Flask(__name__)
+cloudinary.config(
+    cloud_name="YOUR_CLOUD_NAME",
+    api_key="YOUR_API_KEY",
+    api_secret="YOUR_API_SECRET"
+)
 def create_database():
     conn = sqlite3.connect("news.db")
     cursor = conn.cursor()
@@ -78,28 +85,42 @@ def upload():
     title = request.form["title"]
     location = request.form["location"]
     article = request.form["article"]
+    category = request.form["category"]
 
     image = request.files["image"]
 
-    image_name = ""
+    image_url = ""
 
     if image.filename:
-        image_name = secure_filename(image.filename)
-        image.save(
-            os.path.join(
-                app.config["UPLOAD_FOLDER"],
-                image_name
-            )
+
+        upload_result = cloudinary.uploader.upload(
+            image,
+            resource_type="image"
         )
+
+        image_url = upload_result["secure_url"]
+
 
     conn = get_db()
 
     conn.execute(
         """
-        INSERT INTO news(title,article,image,location)
-        VALUES(?,?,?,?)
+        INSERT INTO news(
+            title,
+            article,
+            image,
+            location,
+            category
+        )
+        VALUES(?,?,?,?,?)
         """,
-        (title, article, image_name, location)
+        (
+            title,
+            article,
+            image_url,
+            location,
+            category
+        )
     )
 
     conn.commit()
