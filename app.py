@@ -4,6 +4,27 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+def create_database():
+    conn = sqlite3.connect("news.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS news (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT,
+        location TEXT,
+        category TEXT,
+        image TEXT,
+        video TEXT,
+        article TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+create_database()
 app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
 app.secret_key = "my_local_news_secure_key_2026"
 ADMIN_USERNAME = "admin"
