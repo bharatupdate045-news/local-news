@@ -269,6 +269,57 @@ def logout():
     session.pop("admin", None)
 
     return redirect("/login")
+@app.route("/upload", methods=["POST"])
+def upload():
 
+    title = request.form["title"]
+    location = request.form["location"]
+    article = request.form["article"]
+    category = request.form["category"]
+
+    image = request.files["image"]
+    video = request.files["video"]
+
+    image_url = ""
+    video_url = ""
+
+    # Upload image
+    if image and image.filename != "":
+        result = cloudinary.uploader.upload(
+            image,
+            resource_type="image"
+        )
+        image_url = result["secure_url"]
+
+    # Upload video
+    if video and video.filename != "":
+        result = cloudinary.uploader.upload(
+            video,
+            resource_type="video"
+        )
+        video_url = result["secure_url"]
+
+    conn = get_db()
+
+    conn.execute(
+        """
+        INSERT INTO news
+        (title, location, category, image, video, article)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """,
+        (
+            title,
+            location,
+            category,
+            image_url,
+            video_url,
+            article
+        )
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
